@@ -1,0 +1,32 @@
+{
+  "name": "create-node-project",
+  "version": "0.0.0",
+  "description": "A tool to simplify a new Node.js project setup.",
+  "type": "module",
+  "bin": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "packageManager": "pnpm@10.2.1+sha512.398035c7bd696d0ba0b10a688ed558285329d27ea994804a52bad9167d8e3a72bcb993f9699585d3ca25779ac64949ef422757a6c31102c12ab932e5cbe5cc92",
+  "author": "yqlim <23203360+yqlim@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yqlim/create-node-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yqlim/create-node-project/issues"
+  },
+  "homepage": "https://github.com/yqlim/create-node-project#readme",
+  "keywords": [
+    "setup",
+    "bootstrap",
+    "create",
+    "new",
+    "project",
+    "wizard",
+    "node"
+  ]
+}

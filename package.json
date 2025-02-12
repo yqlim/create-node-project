@@ -10,7 +10,11 @@
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
-    "husky": "^9.1.7"
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2",
+    "prettier-plugin-jsdoc": "^1.3.2",
+    "prettier-plugin-sh": "^0.14.0"
   },
   "packageManager": "pnpm@10.2.1+sha512.398035c7bd696d0ba0b10a688ed558285329d27ea994804a52bad9167d8e3a72bcb993f9699585d3ca25779ac64949ef422757a6c31102c12ab932e5cbe5cc92",
   "author": "yqlim <23203360+yqlim@users.noreply.github.com>",

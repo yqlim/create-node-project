@@ -4,6 +4,41 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /**
+ * This is to cache the resolved TS version so that the prettier extension
+ * service will not keep reading the package.json file.
+ *
+ * @type {string | null}
+ */
+let currentTypeScriptVersion = null;
+
+/**
+ * @returns {typeof currentTypeScriptVersion}
+ */
+function getCurrentTypeScriptVersion() {
+  if (!currentTypeScriptVersion) {
+    const pkgTscPath = path.resolve(
+      import.meta.dirname,
+      'node_modules/typescript/package.json',
+    );
+
+    if (fs.existsSync(pkgTscPath)) {
+      const pkgTscContent = fs.readFileSync(pkgTscPath, 'utf8');
+      /**
+       * @type {{ version: string }}
+       */
+      const pkgTsc = JSON.parse(pkgTscContent); // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      const tscVersion = pkgTsc.version;
+      const versionRegex = /^[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?$/;
+      if (versionRegex.test(tscVersion)) {
+        currentTypeScriptVersion = tscVersion;
+      }
+    }
+  }
+
+  return currentTypeScriptVersion;
+}
+
+/**
  * @typedef {Partial<
  *   import('@ianvs/prettier-plugin-sort-imports').PluginConfig &
  *     import('prettier').Config &
@@ -35,34 +70,10 @@ export default {
     '<TYPES>^[.]',
     '',
   ],
-  importOrderTypeScriptVersion: getCurrentTypeScriptVersion() || undefined,
+  importOrderTypeScriptVersion: getCurrentTypeScriptVersion() || undefined, // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
   // prettier-plugin-jsdoc
   jsdocCommentLineStrategy: 'multiline',
   jsdocPreferCodeFences: true,
   tsdoc: true,
   // prettier-plugin-sh
 };
-
-/**
- * @returns {string | null}
- */
-function getCurrentTypeScriptVersion() {
-  let ret = null;
-
-  const pkgTscPath = path.resolve(
-    import.meta.dirname,
-    'node_modules/typescript/package.json',
-  );
-
-  if (fs.existsSync(pkgTscPath)) {
-    const pkgTscContent = fs.readFileSync(pkgTsc, 'utf8');
-    const pkgTsc = JSON.parse(pkgTscContent);
-    const tscVersion = pkgTsc.version;
-    const versionRegex = /^[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?$/;
-    if (versionRegex.test(tscVersion)) {
-      ret = tscVersion;
-    }
-  }
-
-  return ret;
-}

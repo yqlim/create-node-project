@@ -1,3 +1,4 @@
+import cspell from '@cspell/eslint-plugin';
 import eslint from '@eslint/js';
 import globals from 'globals';
 import tsEslint from 'typescript-eslint';
@@ -51,6 +52,19 @@ export default tsEslint.config(
           allowNullish: true,
           allowNumber: true,
           allowRegExp: true,
+        },
+      ],
+    },
+  },
+  {
+    plugins: {
+      '@cspell': cspell,
+    },
+    rules: {
+      '@cspell/spellchecker': [
+        'warn',
+        {
+          configFile: 'cspell.json',
         },
       ],
     },

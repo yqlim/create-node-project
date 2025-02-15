@@ -1,6 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "ignorePaths": ["pnpm-lock.yaml", "dist", "node_modules", "**generated**"],
   "language": "en-GB",
   "readonly": true,
-  "words": ["ianvs"]
+  "words": ["ianvs", "yqlim"]
 }

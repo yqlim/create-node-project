@@ -7,9 +7,15 @@
   "scripts": {
     "build": "tsc --build --clean --incremental",
     "dev": "tsc --watch",
+    "format": "prettier --write .",
+    "lint": "eslint --cache --fix --max-warnings 0 .",
+    "lint-staged": "lint-staged",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
-    "start": "node dist/index.js"
+    "spell-check": "cspell lint '**'",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\"",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.7.1",
@@ -21,6 +27,7 @@
     "@tsconfig/node22": "^22.0.0",
     "@tsconfig/strictest": "^2.0.5",
     "@types/node": "^22.13.4",
+    "cspell": "^8.17.3",
     "eslint": "^9.20.1",
     "eslint-plugin-only-warn": "^1.1.0",
     "globals": "^15.14.0",

@@ -3,5 +3,5 @@
   "ignorePaths": ["pnpm-lock.yaml", "dist", "node_modules", "**generated**"],
   "language": "en-GB",
   "readonly": true,
-  "words": ["ianvs", "yqlim"]
+  "words": ["ianvs", "vars", "yqlim"]
 }

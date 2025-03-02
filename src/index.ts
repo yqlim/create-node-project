@@ -1,17 +1,21 @@
 #!/usr/bin/env node
-import { init, parseArgs, setupCommands, setupOptions } from './args.js';
-import { cliContext, confirmDirectory, rejection } from './logic.js';
+import { argvContext as argv } from './contexts/argv.js';
+import { updateArgvWithPrompts } from './logic/prompts.js';
+import { CNPError } from './utils/index.js';
 
-const args = await init()
-  .then(setupCommands)
-  .then(setupOptions)
-  .then(parseArgs);
+argv.provide(main).catch((error: unknown) => {
+  if (error instanceof Error && error.name === 'ExitPromptError') {
+    console.error('\nAborted\n');
+  } else {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    process.exitCode ||= 1;
+    // Prevent printing the stack trace if the error is a handled error
+    console.error('\n%s\n', error instanceof CNPError ? error.message : error);
+  }
+});
 
-cliContext
-  .run(args, async function main() {
-    await confirmDirectory().catch(rejection);
-  })
-  .catch((err: unknown) => {
-    console.error(err);
-    process.exitCode = 1;
-  });
+async function main(): Promise<void> {
+  await updateArgvWithPrompts();
+
+  console.log(argv.store);
+}

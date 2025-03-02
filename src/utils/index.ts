@@ -15,6 +15,12 @@ export function isDirectoryNodeProject(directory: string): boolean {
   return fsEntityExists(indicatorFile);
 }
 
+export function isEmptyDirectory(directory: string): boolean {
+  const dirname = normalisePath(directory);
+  const entities = fs.readdirSync(dirname, { withFileTypes: true });
+  return entities.length === 0;
+}
+
 export function normalisePath(pathname: string): string {
   return path.isAbsolute(pathname)
     ? pathname

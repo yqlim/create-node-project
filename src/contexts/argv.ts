@@ -11,7 +11,7 @@ export type ArgvStore = {
   license: string | undefined;
   name: string | undefined;
   manager: 'npm' | 'pnpm' | undefined;
-  public: boolean | undefined;
+  publish: 'private' | 'public' | undefined;
   type: 'module' | 'commonjs' | undefined;
   version: string | undefined;
   yes: boolean;
@@ -69,10 +69,11 @@ const argv = instance
       describe: 'The package manager to use for the project.',
       choices: ['npm', 'pnpm'] as const,
     },
-    public: {
+    publish: {
       alias: ['p'],
-      type: 'boolean',
+      type: 'string',
       describe: 'Create a public project.',
+      choices: ['private', 'public'] as const,
     },
     type: {
       alias: ['t'],

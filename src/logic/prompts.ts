@@ -103,13 +103,23 @@ export async function updateArgvWithPrompts(): Promise<void> {
         });
       },
     },
-    public: {
-      defaultValue: false,
-      input: argv.get('public'),
+    publish: {
+      defaultValue: 'private',
+      input: argv.get('publish'),
       prompt() {
-        return confirm({
-          message: 'Is this going to be a public package?',
+        return select({
+          message: 'How do you plan to publish the package?',
           default: this.defaultValue,
+          choices: [
+            {
+              name: 'Public',
+              value: 'public',
+            },
+            {
+              name: 'Private',
+              value: 'private',
+            },
+          ],
         });
       },
     },
@@ -125,7 +135,7 @@ export async function updateArgvWithPrompts(): Promise<void> {
     }
   }
 
-  if (argv.get('public')) {
+  if (argv.get('publish') === 'public') {
     await updateArgv('license', {
       defaultValue: 'MIT',
       input: argv.get('license'),

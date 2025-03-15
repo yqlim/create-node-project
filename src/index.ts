@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { argvContext as argv } from './contexts/argv.js';
-import { updateArgvWithPrompts } from './logic/prompts.js';
+import { updateArgvWithPrompts } from './logic/prompts/index.js';
 import { CNPError } from './utils/index.js';
 
 argv.provide(main).catch((error: unknown) => {

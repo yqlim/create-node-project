@@ -2,16 +2,16 @@ import path from 'node:path';
 
 import { confirm, input, select } from '@inquirer/prompts';
 
-import { argvContext as argv } from '../contexts/argv.js';
+import { argvContext as argv } from '../../contexts/argv.js';
 import {
   CNPError,
   fsEntityExists,
   isDirectoryNodeProject,
   isEmptyDirectory,
   normalisePath,
-} from '../utils/index.js';
+} from '../../utils/index.js';
 
-import type { ArgvStore } from '../contexts/argv.js';
+import type { ArgvStore } from '../../contexts/argv.js';
 
 type AnswerSource<T> = {
   defaultValue: NonNullable<T>;

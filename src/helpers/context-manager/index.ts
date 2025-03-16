@@ -4,7 +4,7 @@ export class ContextManager<T extends object> {
   readonly #context: AsyncLocalStorage<T>;
   readonly #store: Readonly<T>;
 
-  constructor(store: T) {
+  protected constructor(store: T) {
     this.#context = new AsyncLocalStorage<T>();
     this.#store = Object.freeze(structuredClone(store));
   }
@@ -32,7 +32,10 @@ export class ContextManager<T extends object> {
     return this;
   }
 
-  provide<R, A extends unknown[]>(fn: (...args: A) => R, ...args: A): R {
+  protected provide<R, A extends unknown[]>(
+    fn: (...args: A) => R,
+    ...args: A
+  ): R {
     return this.#context.run(structuredClone(this.#store), fn, ...args);
   }
 }

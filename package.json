@@ -1,7 +1,7 @@
 {
   "name": "create-node-project",
   "version": "0.0.0",
-  "description": "A tool to simplify a new Node.js project setup.",
+  "description": "Create a new Node.js project with opinionated bootstrap.",
   "type": "module",
   "bin": "dist/index.js",
   "scripts": {

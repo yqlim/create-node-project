@@ -13,9 +13,10 @@ import {
 } from '../utils/index.js';
 import { InputsContext } from './inputs.js';
 
+import type { RequiredDeep } from 'type-fest';
 import type { InputsStore } from './inputs.js';
 
-export type AnswerStore = Required<Omit<InputsStore, '_' | '$0'>>;
+export type AnswerStore = RequiredDeep<Omit<InputsStore, '_' | '$0'>>;
 
 export class AnswerContext extends ContextManager<AnswerStore> {
   static #instance: AnswerContext | undefined = undefined;

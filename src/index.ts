@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import { AnswerContext } from './contexts/answers.js';
 import { InputsContext } from './contexts/inputs.js';
+import { ensureDirectoryExists } from './logics/ensure-directory.js';
+import { initPackageJson } from './logics/init-package-json.js';
 import { CNPError } from './utils/index.js';
 
 try {
@@ -11,7 +13,10 @@ try {
   console.error('\n%s\n', error instanceof CNPError ? error.message : error);
 }
 
-function main(): void {
+async function main(): Promise<void> {
   console.table(InputsContext.consume().store);
   console.table(AnswerContext.consume().store);
+
+  await ensureDirectoryExists();
+  await initPackageJson();
 }

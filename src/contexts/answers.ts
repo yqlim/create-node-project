@@ -108,9 +108,9 @@ export class AnswerContext extends ContextManager<AnswerStore> {
             });
           },
         }),
-        language: await resolveValue({
+        script: await resolveValue({
           defaultValue: 'ts',
-          input: inputs.get('language'),
+          input: inputs.get('script'),
           prompt() {
             return select({
               message: 'What language do you want to use?',
@@ -148,18 +148,20 @@ export class AnswerContext extends ContextManager<AnswerStore> {
             });
           },
         }),
-        license: inputs.get('license') ?? '',
+        license: inputs.get('license') ?? [],
       };
 
       if (store.publish === 'public') {
         store.license = await resolveValue({
-          defaultValue: 'MIT',
+          defaultValue: ['MIT'],
           input: inputs.get('license'),
-          prompt() {
-            return input({
-              message: 'What is the license of the package?',
-              default: this.defaultValue,
+          async prompt() {
+            const value = await input({
+              message:
+                'What is the license of the package? If you have multiple licenses, separate them with commas.',
+              default: this.defaultValue.join(','),
             });
+            return value.split(',').map((license) => license.trim());
           },
         });
       }

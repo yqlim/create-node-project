@@ -6,11 +6,11 @@ import { ContextManager } from '../helpers/context-manager/index.js';
 export type InputsStore = {
   description: string | undefined;
   directory: string | undefined;
-  language: 'ts' | 'js' | undefined;
-  license: string | undefined;
+  license: string[] | undefined;
   name: string | undefined;
   manager: 'npm' | 'pnpm' | undefined;
   publish: 'private' | 'public' | undefined;
+  script: 'ts' | 'js' | undefined;
   type: 'module' | 'commonjs' | undefined;
   version: string | undefined;
   yes: boolean;
@@ -43,14 +43,9 @@ export class InputsContext extends ContextManager<InputsStore> {
             type: 'string',
             describe: 'The description of the project.',
           },
-          language: {
-            alias: ['l', 'lang'],
-            type: 'string',
-            describe: 'The language to use for the project.',
-            choices: ['ts', 'js'] as const,
-          },
           license: {
-            alias: [],
+            alias: ['l'],
+            array: true,
             type: 'string',
             describe:
               'The license to use for the project. If the project is public, defaults to "MIT".',
@@ -72,6 +67,12 @@ export class InputsContext extends ContextManager<InputsStore> {
             type: 'string',
             describe: 'Create a public project.',
             choices: ['private', 'public'] as const,
+          },
+          script: {
+            alias: ['s'],
+            type: 'string',
+            describe: 'The language to use for the project.',
+            choices: ['ts', 'js'] as const,
           },
           type: {
             alias: ['t'],

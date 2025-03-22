@@ -2,7 +2,8 @@ import { PackageManager } from './_base.js';
 
 import type {
   AddArguments,
-  InstallArguments,
+  CleanArguments,
+  ExecArguments,
   RemoveArguments,
   RunArguments,
 } from './_base.js';
@@ -51,11 +52,11 @@ export class Pnpm extends PackageManager {
     return this.execute(args);
   }
 
-  install({
+  clean({
     directory,
     frozenLockfile,
     workspaces,
-  }: InstallArguments): Promise<void> {
+  }: CleanArguments): Promise<void> {
     const args = ['install'];
 
     if (frozenLockfile) {
@@ -74,6 +75,37 @@ export class Pnpm extends PackageManager {
           args.push('--filter', w);
         });
       }
+    }
+
+    return this.execute(args);
+  }
+
+  exec({
+    command,
+    directory,
+    additionalArgs,
+    workspaces,
+  }: ExecArguments): Promise<void> {
+    const args = [];
+
+    if (directory) {
+      args.push('--dir', directory);
+    }
+
+    if (workspaces) {
+      if (workspaces === 'all') {
+        args.push('--recursive');
+      } else if (workspaces.length > 0) {
+        workspaces.forEach((w) => {
+          args.push('--filter', w);
+        });
+      }
+    }
+
+    args.push('exec', command);
+
+    if (additionalArgs) {
+      args.push(...additionalArgs);
     }
 
     return this.execute(args);
@@ -130,3 +162,5 @@ export class Pnpm extends PackageManager {
     return this.execute(args);
   }
 }
+
+export default Pnpm;

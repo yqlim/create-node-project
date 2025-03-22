@@ -2,7 +2,8 @@ import { PackageManager } from './_base.js';
 
 import type {
   AddArguments,
-  InstallArguments,
+  CleanArguments,
+  ExecArguments,
   RemoveArguments,
   RunArguments,
 } from './_base.js';
@@ -51,11 +52,11 @@ export class Npm extends PackageManager {
     return this.execute(args);
   }
 
-  install({
+  clean({
     directory,
     frozenLockfile,
     workspaces,
-  }: InstallArguments): Promise<void> {
+  }: CleanArguments): Promise<void> {
     const args: string[] = [];
 
     if (frozenLockfile) {
@@ -76,6 +77,37 @@ export class Npm extends PackageManager {
           args.push('--workspace', w);
         });
       }
+    }
+
+    return this.execute(args);
+  }
+
+  exec({
+    additionalArgs,
+    command,
+    directory,
+    workspaces,
+  }: ExecArguments): Promise<void> {
+    const args = ['exec'];
+
+    if (directory) {
+      args.push('--prefix', directory);
+    }
+
+    if (workspaces) {
+      if (workspaces === 'all') {
+        args.push('--workspaces');
+      } else if (workspaces.length > 0) {
+        workspaces.forEach((w) => {
+          args.push('--workspace', w);
+        });
+      }
+    }
+
+    args.push('--', command);
+
+    if (additionalArgs) {
+      args.push(...additionalArgs);
     }
 
     return this.execute(args);
@@ -134,3 +166,5 @@ export class Npm extends PackageManager {
     return this.execute(args);
   }
 }
+
+export default Npm;

@@ -1,12 +1,18 @@
 #!/usr/bin/env node
 import { AnswerContext } from './contexts/answers.js';
 import { InputsContext } from './contexts/inputs.js';
+import { PackageContext } from './contexts/package.js';
 import { ensureDirectoryExists } from './logics/ensure-directory.js';
-import { initPackageJson } from './logics/init-package-json.js';
+import { setupGit } from './logics/setup-git.js';
+import { setupHusky } from './logics/setup-husky.js';
 import { CNPError } from './utils/index.js';
 
 try {
-  await InputsContext.provide(() => AnswerContext.provide(main));
+  await InputsContext.provide(() => {
+    return AnswerContext.provide(() => {
+      return PackageContext.provide(main);
+    });
+  });
 } catch (error) {
   process.exitCode ??= 1;
   // Prevent printing the stack trace if the error is a handled error
@@ -16,7 +22,10 @@ try {
 async function main(): Promise<void> {
   console.table(InputsContext.consume().store);
   console.table(AnswerContext.consume().store);
+  console.table(PackageContext.consume().store);
 
   await ensureDirectoryExists();
-  await initPackageJson();
+  await setupGit();
+  PackageContext.consume().persist();
+  await setupHusky();
 }

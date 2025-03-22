@@ -1,10 +1,19 @@
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import AnswerContext from '../contexts/answers.js';
 import { InputsContext } from '../contexts/inputs.js';
 
 export class CNPError extends Error {
   override readonly name = 'CreateNodeProjectError';
+}
+
+/**
+ * Capitalise the first letter of a word.
+ */
+export function capitalise<T extends string>(word: T): Capitalize<T> {
+  return word.charAt(0).toUpperCase().concat(word.slice(1)) as Capitalize<T>;
 }
 
 /**
@@ -73,4 +82,30 @@ export async function resolveValue<T>(sources: {
   }
 
   return sources.prompt();
+}
+
+/**
+ * Run a command as a child process where the `cwd` is the directory from
+ * `AnswerContext` and the `stdio` is inherited.
+ */
+export function runCommand(command: string, args: string[]): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    console.log('Executing command: %s', [command, ...args].join(' '));
+
+    const child = spawn(command, args, {
+      cwd: AnswerContext.consume().get('directory'),
+      stdio: 'inherit',
+    });
+
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new CNPError(`Failed to execute command: ${command}`));
+      }
+    });
+  }).finally(() => {
+    // Add an empty line after the command output
+    console.log('');
+  });
 }

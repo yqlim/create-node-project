@@ -7,7 +7,13 @@ import 'eslint-plugin-only-warn';
 
 export default tsEslint.config(
   {
-    ignores: ['**/build/', '**/dist/', '**/node_modules/', '**/out/'],
+    ignores: [
+      '**/build/',
+      '**/dist/',
+      '**/node_modules/',
+      '**/out/',
+      '**/stubs/',
+    ],
   },
   {
     files: ['**/*.{js,mjs,cjs,ts}'],

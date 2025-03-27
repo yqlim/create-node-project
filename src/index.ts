@@ -3,8 +3,6 @@ import { AnswerContext } from './contexts/answers.js';
 import { InputsContext } from './contexts/inputs.js';
 import { PackageContext } from './contexts/package.js';
 import { ensureDirectoryExists } from './logics/ensure-directory.js';
-import { setupGit } from './logics/setup-git.js';
-import { setupHusky } from './logics/setup-husky.js';
 import { CNPError } from './utils/index.js';
 
 try {
@@ -25,7 +23,4 @@ async function main(): Promise<void> {
   console.table(PackageContext.consume().store);
 
   await ensureDirectoryExists();
-  await setupGit();
-  PackageContext.consume().persist();
-  await setupHusky();
 }

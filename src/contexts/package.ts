@@ -2,99 +2,105 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { ContextManager } from '../helpers/context-manager/index.js';
-import { CNPError } from '../utils/index.js';
+// import { CNPError } from '../utils/index.js';
 import AnswerContext from './answers.js';
 
 import type { JsonObject, PackageJson, SetRequired } from 'type-fest';
 import type { PackageManager } from '../helpers/package-manager/_base.js';
-import type { AnswerStore } from './answers.js';
+
+// import type { AnswerStore } from './answers.js';
 
 export type PackageStore = SetRequired<
   PackageJson,
-  'name' | 'version' | 'description' | 'type' | 'license'
+  | 'name'
+  // | 'version'
+  | 'description'
+  // | 'type'
+  // | 'license'
 >;
 
 export class PackageContext extends ContextManager<PackageStore> {
   static #instance: PackageContext | undefined = undefined;
   static #manager: PackageManager | undefined = undefined;
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   static async #getInstance(): Promise<PackageContext> {
     if (!PackageContext.#instance) {
       const answers = AnswerContext.consume();
-      const inferLicense = (
-        visibility: AnswerStore['publish'],
-        licenses: AnswerStore['license'],
-      ): string => {
-        switch (licenses.length) {
-          case 0:
-            return visibility === 'private' ? 'UNLICENSED' : 'MIT';
-          case 1:
-            return licenses[0] ?? 'MIT';
-          default:
-            /**
-             * SPDX License Expression Syntax
-             *
-             * @see https://spdx.dev/use/specifications/
-             */
-            return `(${licenses.join(' OR ')})`;
-        }
-      };
+      // const inferLicense = (
+      //   visibility: AnswerStore['publish'],
+      //   licenses: AnswerStore['license'],
+      // ): string => {
+      //   switch (licenses.length) {
+      //     case 0:
+      //       return visibility === 'private' ? 'UNLICENSED' : 'MIT';
+      //     case 1:
+      //       return licenses[0] ?? 'MIT';
+      //     default:
+      //       /**
+      //        * SPDX License Expression Syntax
+      //        *
+      //        * @see https://spdx.dev/use/specifications/
+      //        */
+      //       return `(${licenses.join(' OR ')})`;
+      //   }
+      // };
 
       const store: PackageStore = {
         name: answers.get('name'),
-        version: answers.get('version'),
+        // version: answers.get('version'),
         description: answers.get('description'),
-        type: answers.get('type'),
-        license: inferLicense(answers.get('publish'), answers.get('license')),
+        // type: answers.get('type'),
+        // license: inferLicense(answers.get('publish'), answers.get('license')),
       };
 
-      if (answers.get('publish') === 'private') {
-        store.private = true;
-      }
+      // if (answers.get('publish') === 'private') {
+      //   store.private = true;
+      // }
 
       PackageContext.#instance = new PackageContext(store);
-      PackageContext.#manager = await PackageContext.#loadPackageManager();
+      // PackageContext.#manager = await PackageContext.#loadPackageManager();
     }
     return PackageContext.#instance;
   }
 
-  /**
-   * Dynamically load the package manager module based on the user's choice.
-   */
-  static async #loadPackageManager(): Promise<PackageManager> {
-    const manager = AnswerContext.consume().get('manager');
-    const { default: Manager } = await (() => {
-      switch (manager) {
-        case 'npm':
-          return import('../helpers/package-manager/npm.js');
-        case 'pnpm':
-          return import('../helpers/package-manager/pnpm.js');
-        default:
-          throw new CNPError(`Unsupported package manager: ${manager}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
-      }
-    })();
+  // /**
+  //  * Dynamically load the package manager module based on the user's choice.
+  //  */
+  // static async #loadPackageManager(): Promise<PackageManager> {
+  //   const manager = AnswerContext.consume().get('manager');
+  //   const { default: Manager } = await (() => {
+  //     switch (manager) {
+  //       case 'npm':
+  //         return import('../helpers/package-manager/npm.js');
+  //       case 'pnpm':
+  //         return import('../helpers/package-manager/pnpm.js');
+  //       default:
+  //         throw new CNPError(`Unsupported package manager: ${manager}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
+  //     }
+  //   })();
 
-    return new Proxy(new Manager(AnswerContext.consume().get('directory')), {
-      get(target, prop, receiver) {
-        const value: unknown = Reflect.get(target, prop, receiver);
+  //   return new Proxy(new Manager(AnswerContext.consume().get('directory')), {
+  //     get(target, prop, receiver) {
+  //       const value: unknown = Reflect.get(target, prop, receiver);
 
-        if (
-          (prop === 'add' || prop === 'remove') &&
-          typeof value === 'function'
-        ) {
-          return async (...args: unknown[]): Promise<unknown> => {
-            const ret: unknown = await value.apply(target, args);
+  //       if (
+  //         (prop === 'add' || prop === 'remove') &&
+  //         typeof value === 'function'
+  //       ) {
+  //         return async (...args: unknown[]): Promise<unknown> => {
+  //           const ret: unknown = await value.apply(target, args);
 
-            PackageContext.consume().load();
+  //           PackageContext.consume().load();
 
-            return ret;
-          };
-        }
+  //           return ret;
+  //         };
+  //       }
 
-        return value;
-      },
-    });
-  }
+  //       return value;
+  //     },
+  //   });
+  // }
 
   static consume(): PackageContext {
     if (!this.#instance) {

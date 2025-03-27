@@ -77,6 +77,7 @@ export async function resolveValue<T>(sources: {
     return sources.input;
   }
 
+  // @ts-expect-error The `yes` flag is temporarily disabled
   if (InputsContext.consume().get('yes')) {
     return sources.defaultValue;
   }

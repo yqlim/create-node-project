@@ -1,6 +1,9 @@
 import path from 'node:path';
 
-import { input, select } from '@inquirer/prompts';
+import {
+  input,
+  // select
+} from '@inquirer/prompts';
 
 import { ContextManager } from '../helpers/context-manager/index.js';
 import {
@@ -54,19 +57,19 @@ export class AnswerContext extends ContextManager<AnswerStore> {
       }
 
       const store: AnswerStore = {
-        yes: inputs.get('yes'),
+        // yes: inputs.get('yes'),
         directory,
-        manager: await resolveValue({
-          defaultValue: 'pnpm',
-          input: inputs.get('manager'),
-          prompt() {
-            return select({
-              message: 'What package manager do you want to use?',
-              default: this.defaultValue,
-              choices: ['npm', 'pnpm'],
-            });
-          },
-        }),
+        // manager: await resolveValue({
+        //   defaultValue: 'pnpm',
+        //   input: inputs.get('manager'),
+        //   prompt() {
+        //     return select({
+        //       message: 'What package manager do you want to use?',
+        //       default: this.defaultValue,
+        //       choices: ['npm', 'pnpm'],
+        //     });
+        //   },
+        // }),
         name: await resolveValue({
           defaultValue: path.basename(directory),
           input: inputs.get('name'),
@@ -87,84 +90,84 @@ export class AnswerContext extends ContextManager<AnswerStore> {
             });
           },
         }),
-        version: await resolveValue({
-          defaultValue: '0.1.0',
-          input: inputs.get('version'),
-          prompt() {
-            return input({
-              message: 'What is the version of the package?',
-              default: this.defaultValue,
-            });
-          },
-        }),
-        type: await resolveValue({
-          defaultValue: 'module',
-          input: inputs.get('type'),
-          prompt() {
-            return select({
-              message: 'What is the type of the package?',
-              default: this.defaultValue,
-              choices: ['module', 'commonjs'],
-            });
-          },
-        }),
-        script: await resolveValue({
-          defaultValue: 'ts',
-          input: inputs.get('script'),
-          prompt() {
-            return select({
-              message: 'What language do you want to use?',
-              default: this.defaultValue,
-              choices: [
-                {
-                  name: 'TypeScript',
-                  value: 'ts',
-                },
-                {
-                  name: 'JavaScript',
-                  value: 'js',
-                },
-              ],
-            });
-          },
-        }),
-        publish: await resolveValue({
-          defaultValue: 'private',
-          input: inputs.get('publish'),
-          prompt() {
-            return select({
-              message: 'What is the visibility of the package?',
-              default: this.defaultValue,
-              choices: [
-                {
-                  name: 'Public',
-                  value: 'public',
-                },
-                {
-                  name: 'Private',
-                  value: 'private',
-                },
-              ],
-            });
-          },
-        }),
-        license: inputs.get('license') ?? [],
+        // version: await resolveValue({
+        //   defaultValue: '0.1.0',
+        //   input: inputs.get('version'),
+        //   prompt() {
+        //     return input({
+        //       message: 'What is the version of the package?',
+        //       default: this.defaultValue,
+        //     });
+        //   },
+        // }),
+        // type: await resolveValue({
+        //   defaultValue: 'module',
+        //   input: inputs.get('type'),
+        //   prompt() {
+        //     return select({
+        //       message: 'What is the type of the package?',
+        //       default: this.defaultValue,
+        //       choices: ['module', 'commonjs'],
+        //     });
+        //   },
+        // }),
+        // script: await resolveValue({
+        //   defaultValue: 'ts',
+        //   input: inputs.get('script'),
+        //   prompt() {
+        //     return select({
+        //       message: 'What language do you want to use?',
+        //       default: this.defaultValue,
+        //       choices: [
+        //         {
+        //           name: 'TypeScript',
+        //           value: 'ts',
+        //         },
+        //         {
+        //           name: 'JavaScript',
+        //           value: 'js',
+        //         },
+        //       ],
+        //     });
+        //   },
+        // }),
+        // publish: await resolveValue({
+        //   defaultValue: 'private',
+        //   input: inputs.get('publish'),
+        //   prompt() {
+        //     return select({
+        //       message: 'What is the visibility of the package?',
+        //       default: this.defaultValue,
+        //       choices: [
+        //         {
+        //           name: 'Public',
+        //           value: 'public',
+        //         },
+        //         {
+        //           name: 'Private',
+        //           value: 'private',
+        //         },
+        //       ],
+        //     });
+        //   },
+        // }),
+        // license: inputs.get('license') ?? [],
       };
 
-      if (store.publish === 'public') {
-        store.license = await resolveValue({
-          defaultValue: ['MIT'],
-          input: inputs.get('license'),
-          async prompt() {
-            const value = await input({
-              message:
-                'What is the license of the package? If you have multiple licenses, separate them with commas.',
-              default: this.defaultValue.join(','),
-            });
-            return value.split(',').map((license) => license.trim());
-          },
-        });
-      }
+      // if (store.publish === 'public') {
+      //   store.license = await resolveValue({
+      //     defaultValue: ['MIT'],
+      //     input: inputs.get('license'),
+      //     async prompt() {
+      //       const value = await input({
+      //         message:
+      //           'What is the license of the package? If you have multiple licenses, separate them with commas.',
+      //         default: this.defaultValue.join(','),
+      //       });
+      //       return value.split(',').map((license) => license.trim());
+      //     },
+      //   });
+      // }
 
       AnswerContext.#instance = new AnswerContext(store);
     }

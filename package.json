@@ -4,6 +4,10 @@
   "description": "Create a new Node.js project with opinionated bootstrap.",
   "type": "module",
   "bin": "dist/index.js",
+  "files": [
+    "dist",
+    "templates"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

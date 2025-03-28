@@ -2,7 +2,8 @@ import path from 'node:path';
 
 import {
   input,
-  // select
+  // select,
+  search,
 } from '@inquirer/prompts';
 
 import { ContextManager } from '../helpers/context-manager/index.js';
@@ -14,6 +15,7 @@ import {
   normalisePath,
   resolveValue,
 } from '../utils/index.js';
+import { getTemplateList } from '../utils/templating.js';
 import { InputsContext } from './inputs.js';
 
 import type { RequiredDeep } from 'type-fest';
@@ -56,6 +58,29 @@ export class AnswerContext extends ContextManager<AnswerStore> {
         }
       }
 
+      const templateList = getTemplateList();
+      const template = await resolveValue({
+        defaultValue: 'default',
+        input: inputs.get('template'),
+        prompt() {
+          return search({
+            message: 'What template do you want to use?',
+            source(term) {
+              return templateList.filter((name) =>
+                term ? new RegExp(term).test(name) : true,
+              );
+            },
+            validate(value) {
+              return templateList.includes(value);
+            },
+          });
+        },
+      });
+
+      if (!templateList.includes(template)) {
+        throw new CNPError('The provided template is not valid.');
+      }
+
       const store: AnswerStore = {
         // yes: inputs.get('yes'),
         directory,
@@ -70,6 +95,7 @@ export class AnswerContext extends ContextManager<AnswerStore> {
         //     });
         //   },
         // }),
+        template,
         name: await resolveValue({
           defaultValue: path.basename(directory),
           input: inputs.get('name'),

@@ -11,6 +11,7 @@ export type InputsStore = {
   // manager: 'npm' | 'pnpm' | undefined;
   // publish: 'private' | 'public' | undefined;
   // script: 'ts' | 'js' | undefined;
+  template: string | undefined;
   // type: 'module' | 'commonjs' | undefined;
   // version: string | undefined;
   // yes: boolean;
@@ -74,6 +75,12 @@ export class InputsContext extends ContextManager<InputsStore> {
           //   describe: 'The language to use for the project.',
           //   choices: ['ts', 'js'] as const,
           // },
+          template: {
+            alias: ['t'],
+            type: 'string',
+            describe:
+              'The template to use when creating the project structure.',
+          },
           // type: {
           //   alias: ['t'],
           //   type: 'string',

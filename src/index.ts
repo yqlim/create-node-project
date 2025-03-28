@@ -1,9 +1,13 @@
 #!/usr/bin/env node
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { AnswerContext } from './contexts/answers.js';
 import { InputsContext } from './contexts/inputs.js';
 import { PackageContext } from './contexts/package.js';
 import { ensureDirectoryExists } from './logics/ensure-directory.js';
-import { CNPError } from './utils/index.js';
+import { CNPError, copyDirectory } from './utils/index.js';
+import { createTemplate, getTemplatePath } from './utils/templating.js';
 
 try {
   await InputsContext.provide(() => {
@@ -23,4 +27,16 @@ async function main(): Promise<void> {
   console.table(PackageContext.consume().store);
 
   await ensureDirectoryExists();
+
+  const targetOutput = AnswerContext.consume().get('directory');
+  const targetTemplate = AnswerContext.consume().get('template');
+
+  await copyDirectory(getTemplatePath(targetTemplate), targetOutput);
+
+  const templatePackageJson = path.join(targetOutput, 'package.json');
+  const content = await fs.promises.readFile(templatePackageJson, 'utf-8');
+  const substitute = createTemplate(content);
+  const substituted = substitute(AnswerContext.consume().store);
+
+  await fs.promises.writeFile(templatePackageJson, substituted);
 }

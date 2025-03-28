@@ -5,6 +5,8 @@ import path from 'node:path';
 import AnswerContext from '../contexts/answers.js';
 import { InputsContext } from '../contexts/inputs.js';
 
+const PROJECT_ROOT_MEMO = new Map<string, string>();
+
 export class CNPError extends Error {
   override readonly name = 'CreateNodeProjectError';
 }
@@ -14,6 +16,51 @@ export class CNPError extends Error {
  */
 export function capitalise<T extends string>(word: T): Capitalize<T> {
   return word.charAt(0).toUpperCase().concat(word.slice(1)) as Capitalize<T>;
+}
+
+/**
+ * Copy all files including subdirectories from a source directory to a
+ * destination directory.
+ */
+export function copyDirectory(
+  source: string,
+  destination: string,
+): Promise<void> {
+  return fs.promises.cp(source, destination, {
+    errorOnExist: true,
+    recursive: true,
+  });
+}
+
+/**
+ * Get the root directory of a Node.js project.
+ */
+export function getProjectRoot(
+  from: string,
+  indicatorFiles: string[] = ['package-lock.json', 'pnpm-lock.yaml'],
+  memo: string[] = [],
+): string {
+  if (!PROJECT_ROOT_MEMO.has(from)) {
+    memo.push(from);
+
+    const dirent = fs.readdirSync(from, { withFileTypes: true });
+    const hasIndicatorFile = dirent.some((entity) => {
+      return indicatorFiles.includes(entity.name);
+    });
+
+    if (!hasIndicatorFile) {
+      if (from === '/') {
+        throw new Error('Failed to find the root of the Node.js project');
+      }
+      return getProjectRoot(path.dirname(from), indicatorFiles, memo);
+    }
+
+    memo.forEach((pathname) => {
+      PROJECT_ROOT_MEMO.set(pathname, from);
+    });
+  }
+
+  return PROJECT_ROOT_MEMO.get(from)!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
 }
 
 /**

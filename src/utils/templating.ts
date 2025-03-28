@@ -1,3 +1,8 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+import { getProjectRoot } from './index.js';
+
 import type { Trim } from 'type-fest';
 
 type Template<
@@ -43,6 +48,12 @@ type Substitution<
     : `${Output}${CurrentString}`
   : Output;
 
+const TEMPLATE_LIST_MEMO: string[] = [];
+const TEMPLATE_DIR = path.resolve(
+  getProjectRoot(import.meta.dirname),
+  'templates',
+);
+
 export function createTemplate<const T extends string>(
   template: T,
 ): <const U extends { [key in Template<T>['keys'][number]]: string }>(
@@ -52,24 +63,52 @@ export function createTemplate<const T extends string>(
     const isDictionaryKey = (key: unknown): key is keyof typeof dictionary =>
       !!key && typeof key === 'string' && Object.hasOwn(dictionary, key);
 
-    return template.replace(
-      /{{\s*(?<term>[^}\s]+)\s*}}/g,
-      (match, ...rest: (string | number | Record<string, string>)[]) => {
-        const groups = rest[rest.length - 1];
+    const bracketed = /{{\s*(?<term>[^}\s]+)\s*}}/g;
+    const withInputValues: Extract<
+      Parameters<typeof String.prototype.replace>[1],
+      CallableFunction
+    > = (match, ...rest: (string | number | Record<string, string>)[]) => {
+      const groups = rest[rest.length - 1];
 
-        if (groups && typeof groups === 'object') {
-          const { term } = groups;
-          if (isDictionaryKey(term)) {
-            return dictionary[term];
-          }
+      if (groups && typeof groups === 'object') {
+        const { term } = groups;
+        if (isDictionaryKey(term)) {
+          return dictionary[term];
         }
+      }
 
-        return match;
-      },
-    ) as Substitution<
+      return match;
+    };
+
+    return template.replace(bracketed, withInputValues) as Substitution<
       Template<T>['templateStringsArray'],
       Template<T>['keys'],
       typeof dictionary
     >;
   };
+}
+
+export function loadTemplateStructure(template: string): fs.Dirent[] {
+  const rootDir = getProjectRoot(import.meta.dirname);
+  const templateDir = path.resolve(rootDir, 'templates', template);
+  return fs.readdirSync(templateDir, { withFileTypes: true });
+}
+
+export function getTemplateList(): readonly string[] {
+  if (Object.isExtensible(TEMPLATE_LIST_MEMO)) {
+    const templates = fs
+      .readdirSync(TEMPLATE_DIR, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+    TEMPLATE_LIST_MEMO.push(...templates);
+    Object.freeze(TEMPLATE_LIST_MEMO);
+  }
+  return TEMPLATE_LIST_MEMO;
+}
+
+export function getTemplatePath(template: string): string {
+  if (!getTemplateList().includes(template)) {
+    throw new Error('The provided template is not found.');
+  }
+  return path.join(TEMPLATE_DIR, template);
 }

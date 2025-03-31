@@ -115,7 +115,7 @@ export function normalisePath(pathname: string): string {
  * 2. Default value (only if the `yes` flag is set).
  * 3. Prompt the user for the value.
  */
-export async function resolveValue<T>(sources: {
+export async function resolveValue<T extends string>(sources: {
   defaultValue: T;
   input: T | undefined;
   prompt(this: typeof sources): Promise<T>;

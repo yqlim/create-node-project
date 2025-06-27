@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["@packages/tsconfig/library.json"],
+  "compilerOptions": {
+    "module": "ES2022",
+    "lib": ["ES2024"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "target": "ES2024"
+  },
+  "include": ["src"]
+}

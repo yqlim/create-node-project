@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "ignorePaths": [
+    "**/dist/**",
+    "**/generated/**",
+    "**/node_modules/**",
+    "**/out/**",
+    "package-lock.json",
+    "pnpm-lock.yaml"
+  ],
+  "language": "en,en-US,en-GB",
+  "readonly": true,
+  "words": [
+    "autodocs",
+    "chanfana",
+    "esbuild",
+    "headlessui",
+    "ianvs",
+    "Jsonifiable",
+    "noopener",
+    "noreferrer",
+    "Promisable",
+    "vars",
+    "vinxi"
+  ]
+}

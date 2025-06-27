@@ -13,6 +13,7 @@ export default tsEslint.config(
       '**/node_modules/',
       '**/out/',
       '**/stubs/',
+      '**/templates/',
     ],
   },
   {

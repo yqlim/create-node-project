@@ -1,0 +1,37 @@
+{
+  "name": "@packages/lint-staged-config",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A shared lint-staged configuration for this project.",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "dev": "npm run build -- --watch",
+    "test": "npm run test:type",
+    "test:lint": "eslint --max-warnings 0 .",
+    "test:type": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "lint-staged": "^15.4.3"
+  },
+  "devDependencies": {
+    "@cspell/eslint-plugin": "^8.19.4",
+    "@eslint/js": "^9.29.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
+    "@packages/eslint-config": "workspace:*",
+    "@packages/prettier-config": "workspace:*",
+    "@packages/tsconfig": "workspace:*",
+    "@types/node": "^22.15.33",
+    "eslint": "^9.29.0",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "globals": "^16.2.0",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.6.2",
+    "prettier-plugin-jsdoc": "^1.3.2",
+    "prettier-plugin-pkg": "^0.19.1",
+    "prettier-plugin-sh": "^0.14.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0"
+  }
+}

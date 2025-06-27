@@ -25,11 +25,37 @@ export function capitalise<T extends string>(word: T): Capitalize<T> {
 export function copyDirectory(
   source: string,
   destination: string,
+  ignores: string[] = ['.git', 'build', 'dist', 'node_modules', 'out'],
 ): Promise<void> {
+  const sep = escapeStringRegex(path.sep);
+  const ignored = ignores.map(escapeStringRegex).join('|');
+  const regex = new RegExp(`${sep}(?:${ignored})(?:${sep}.*)?$`);
   return fs.promises.cp(source, destination, {
     errorOnExist: true,
     recursive: true,
+    filter: (src) => !regex.test(src),
   });
+}
+
+/**
+ * Escapes a string to be parsed as regular expression.
+ *
+ * @example
+ *
+ * ```js
+ * const example = 'A.B.C.D';
+ * const target = '.';
+ * const intendedResult = 'A-B-C-D';
+ *
+ * const withoutEscape = new RegExp(target, 'g');
+ * const withEscape = new RegExp(escapeStringRegex(target), 'g');
+ *
+ * assert.strictEqual(example.replace(withEscape, '-'), intendedResult); // ok
+ * assert.strictEqual(example.replace(withoutEscape, '-'), intendedResult); // not ok
+ * ```
+ */
+export function escapeStringRegex(str: string): string {
+  return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
 /**

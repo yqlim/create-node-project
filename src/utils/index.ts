@@ -25,7 +25,16 @@ export function capitalise<T extends string>(word: T): Capitalize<T> {
 export function copyDirectory(
   source: string,
   destination: string,
-  ignores: string[] = ['.git', 'build', 'dist', 'node_modules', 'out'],
+  ignores: string[] = [
+    '.git',
+    'build',
+    'dist',
+    'node_modules',
+    'out',
+    'pnpm-lock.yaml',
+    'yarn.lock',
+    'package-lock.json',
+  ],
 ): Promise<void> {
   const sep = escapeStringRegex(path.sep);
   const ignored = ignores.map(escapeStringRegex).join('|');

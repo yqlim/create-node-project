@@ -8,23 +8,50 @@ let currentTypeScriptVersion: string | null = null;
 
 function getCurrentTypeScriptVersion(): typeof currentTypeScriptVersion {
   if (!currentTypeScriptVersion) {
-    const pkgTscPath = path.resolve(
-      process.cwd(),
-      'node_modules/typescript/package.json',
-    );
+    const versionRegex =
+      /^(?:[\^~><])?(?<version>[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?)$/;
 
-    if (fs.existsSync(pkgTscPath)) {
-      const pkgTscContent = fs.readFileSync(pkgTscPath, 'utf8');
-      const pkgTsc = JSON.parse(pkgTscContent) as {
-        version: string;
-        [key: string]: unknown;
-      };
-      const tscVersion = pkgTsc.version;
-      const versionRegex = /^[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?$/;
-      if (versionRegex.test(tscVersion)) {
-        currentTypeScriptVersion = tscVersion;
+    const parseVersion = (str: unknown): string | null =>
+      versionRegex.exec(typeof str === 'string' ? str : '')?.groups?.[
+        'version'
+      ] ?? null;
+
+    const getVersionFromPackageJson = (
+      ...pathChunks: string[]
+    ): string | null => {
+      const filePath = path.resolve(...pathChunks);
+
+      try {
+        if (!fs.existsSync(filePath)) {
+          throw new Error(`File does not exist`);
+        }
+
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const pkgJson = JSON.parse(content) as unknown;
+
+        if (
+          !pkgJson ||
+          typeof pkgJson !== 'object' ||
+          !('version' in pkgJson) ||
+          typeof pkgJson.version !== 'string'
+        ) {
+          throw new Error(`Invalid package.json format`);
+        }
+
+        return parseVersion(pkgJson.version);
+      } catch (error) {
+        console.error(`Error reading package.json at ${filePath}:`, error);
+        return null;
       }
-    }
+    };
+
+    currentTypeScriptVersion =
+      getVersionFromPackageJson(
+        process.cwd(),
+        'node_modules/typescript/package.json',
+      ) ??
+      getVersionFromPackageJson(process.cwd(), 'package.json') ??
+      null;
   }
 
   return currentTypeScriptVersion;

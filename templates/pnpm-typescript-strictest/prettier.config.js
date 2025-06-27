@@ -2,57 +2,24 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /**
- * This is to cache the resolved TS version so that the prettier extension
- * service will not keep reading the package.json file.
- *
  * @type {string | null}
  */
 let currentTypeScriptVersion = null;
 
 /**
- * @returns {typeof currentTypeScriptVersion}
- */
-function getCurrentTypeScriptVersion() {
-  if (!currentTypeScriptVersion) {
-    const pkgTscPath = path.resolve(
-      import.meta.dirname,
-      'node_modules/typescript/package.json',
-    );
-
-    if (fs.existsSync(pkgTscPath)) {
-      const pkgTscContent = fs.readFileSync(pkgTscPath, 'utf8');
-      /**
-       * @type {{ version: string }}
-       */
-      const pkgTsc = JSON.parse(pkgTscContent); // eslint-disable-line @typescript-eslint/no-unsafe-assignment
-      const tscVersion = pkgTsc.version;
-      const versionRegex = /^[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?$/;
-      if (versionRegex.test(tscVersion)) {
-        currentTypeScriptVersion = tscVersion;
-      }
-    }
-  }
-
-  return currentTypeScriptVersion;
-}
-
-/**
- * @typedef {Partial<
- *   import('@ianvs/prettier-plugin-sort-imports').PluginConfig &
- *     import('prettier').Config &
- *     import('prettier-plugin-jsdoc').Options &
- *     import('prettier-plugin-sh').ShParserOptions
- * >} PrettierConfig
- *
- * @type {PrettierConfig}
+ * @type {import('prettier').Config}
  */
 export default {
   singleQuote: true,
   plugins: [
     '@ianvs/prettier-plugin-sort-imports',
     'prettier-plugin-jsdoc',
-    'prettier-plugin-sh',
+    'prettier-plugin-pkg',
   ],
+  // prettier-plugin-jsdoc
+  jsdocCommentLineStrategy: 'multiline',
+  jsdocPreferCodeFences: true,
+  tsdoc: true,
   // @ianvs/prettier-plugin-sort-imports
   importOrder: [
     '',
@@ -68,10 +35,68 @@ export default {
     '<TYPES>^[.]',
     '',
   ],
-  importOrderTypeScriptVersion: getCurrentTypeScriptVersion() || undefined, // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing
-  // prettier-plugin-jsdoc
-  jsdocCommentLineStrategy: 'multiline',
-  jsdocPreferCodeFences: true,
-  tsdoc: true,
-  // prettier-plugin-sh
+  importOrderTypeScriptVersion: getCurrentTypeScriptVersion() ?? '5.0.0',
 };
+
+/**
+ * @returns {string | null} The current TypeScript version or null if not found.
+ */
+function getCurrentTypeScriptVersion() {
+  if (!currentTypeScriptVersion) {
+    const versionRegex =
+      /^(?:[\^~><])?(?<version>[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?)$/;
+
+    /**
+     * @param {unknown} str
+     * @returns {string | null}
+     */
+    const parseVersion = (str) =>
+      versionRegex.exec(typeof str === 'string' ? str : '')?.groups?.[
+        'version'
+      ] ?? null;
+
+    /**
+     * @param {...string} pathChunks
+     * @returns {string | null}
+     */
+    const getVersionFromPackageJson = (...pathChunks) => {
+      const filePath = path.resolve(...pathChunks);
+
+      try {
+        if (!fs.existsSync(filePath)) {
+          throw new Error(`File does not exist`);
+        }
+
+        const content = fs.readFileSync(filePath, 'utf-8');
+        /**
+         * @type {unknown}
+         */
+        const pkgJson = JSON.parse(content);
+
+        if (
+          !pkgJson ||
+          typeof pkgJson !== 'object' ||
+          !('version' in pkgJson) ||
+          typeof pkgJson.version !== 'string'
+        ) {
+          throw new Error(`Invalid package.json format`);
+        }
+
+        return parseVersion(pkgJson.version);
+      } catch (error) {
+        console.error(`Error reading package.json at ${filePath}:`, error);
+        return null;
+      }
+    };
+
+    currentTypeScriptVersion =
+      getVersionFromPackageJson(
+        import.meta.dirname,
+        'node_modules/typescript/package.json',
+      ) ??
+      getVersionFromPackageJson(import.meta.dirname, 'package.json') ??
+      null;
+  }
+
+  return currentTypeScriptVersion;
+}

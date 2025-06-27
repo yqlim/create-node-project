@@ -9,9 +9,9 @@ export const config: Config = mergeConfig(
   {
     singleQuote: true,
   },
+  configSortImport,
   configJsDoc,
   configPkg,
-  configSortImport,
 );
 
 export default config;

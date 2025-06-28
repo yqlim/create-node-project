@@ -21,7 +21,9 @@ import { InputsContext } from './inputs.js';
 import type { RequiredDeep } from 'type-fest';
 import type { InputsStore } from './inputs.js';
 
-export type AnswerStore = RequiredDeep<Omit<InputsStore, '_' | '$0'>>;
+export type AnswerStore = RequiredDeep<
+  Omit<InputsStore, '_' | '$0' | 'verbose'>
+>;
 
 export class AnswerContext extends ContextManager<AnswerStore> {
   static #instance: AnswerContext | undefined = undefined;

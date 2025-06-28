@@ -13,6 +13,7 @@ export type InputsStore = {
   // script: 'ts' | 'js' | undefined;
   template: string | undefined;
   // type: 'module' | 'commonjs' | undefined;
+  verbose: boolean | undefined;
   // version: string | undefined;
   // yes: boolean;
   _: (string | number)[];
@@ -87,6 +88,11 @@ export class InputsContext extends ContextManager<InputsStore> {
           //   describe: 'The type of project to create.',
           //   choices: ['module', 'commonjs'] as const,
           // },
+          verbose: {
+            type: 'boolean',
+            describe: 'Enable verbose output.',
+            default: false,
+          },
           // version: {
           //   alias: ['v'],
           //   type: 'string',

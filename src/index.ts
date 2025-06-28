@@ -22,9 +22,11 @@ try {
 }
 
 async function main(): Promise<void> {
-  console.table(InputsContext.consume().store);
-  console.table(AnswerContext.consume().store);
-  console.table(PackageContext.consume().store);
+  if (InputsContext.consume().get('verbose')) {
+    console.table(InputsContext.consume().store);
+    console.table(AnswerContext.consume().store);
+    console.table(PackageContext.consume().store);
+  }
 
   await ensureDirectoryExists();
 

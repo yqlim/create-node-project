@@ -27,6 +27,7 @@ export function copyDirectory(
   destination: string,
   ignores: string[] = [
     '.git',
+    `.husky${path.sep}_`,
     'build',
     'dist',
     'node_modules',
@@ -42,7 +43,19 @@ export function copyDirectory(
   return fs.promises.cp(source, destination, {
     errorOnExist: true,
     recursive: true,
-    filter: (src) => !regex.test(src),
+    filter: (src, dest) => {
+      const isIgnored = regex.test(src);
+
+      if (InputsContext.consume().get('verbose')) {
+        if (isIgnored) {
+          console.log(`Ignoring: ${src}`);
+        } else {
+          console.log(`Copying to: ${dest}`);
+        }
+      }
+
+      return !isIgnored;
+    },
   });
 }
 

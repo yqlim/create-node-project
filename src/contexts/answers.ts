@@ -15,7 +15,7 @@ import {
   normalisePath,
   resolveValue,
 } from '../utils/index.js';
-import { getDefaultTemplate, getTemplateList } from '../utils/templating.js';
+import { getTemplateList } from '../utils/templating.js';
 import { InputsContext } from './inputs.js';
 
 import type { RequiredDeep } from 'type-fest';
@@ -62,11 +62,8 @@ export class AnswerContext extends ContextManager<AnswerStore> {
 
       const templateList = getTemplateList();
       const template = await resolveValue({
-        defaultValue: getDefaultTemplate(),
-        get input(): string {
-          const input = inputs.get('template');
-          return !input || input === 'default' ? this.defaultValue : input;
-        },
+        defaultValue: 'monorepo',
+        input: inputs.get('template'),
         prompt() {
           return search({
             message: 'What template do you want to use?',

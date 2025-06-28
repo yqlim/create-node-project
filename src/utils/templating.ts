@@ -94,17 +94,6 @@ export function loadTemplateStructure(template: string): fs.Dirent[] {
   return fs.readdirSync(templateDir, { withFileTypes: true });
 }
 
-export function getDefaultTemplate(): string {
-  const defaultTemplatePath = path.join(TEMPLATE_DIR, 'default', '__extends__');
-  const template = fs.readFileSync(defaultTemplatePath, 'utf-8').trim();
-
-  if (!isValidTemplate(template)) {
-    throw new Error('The default template is not valid.');
-  }
-
-  return template;
-}
-
 export function getTemplateList(): readonly string[] {
   if (Object.isExtensible(TEMPLATE_LIST_MEMO)) {
     const templates = fs

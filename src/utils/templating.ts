@@ -63,7 +63,7 @@ export function createTemplate<const T extends string>(
     const isDictionaryKey = (key: unknown): key is keyof typeof dictionary =>
       !!key && typeof key === 'string' && Object.hasOwn(dictionary, key);
 
-    const bracketed = /{{\s*(?<term>[^}\s]+)\s*}}/g;
+    const bracketed = /~~\s*(?<term>[^}\s]+)\s*~~/g;
     const withInputValues: Extract<
       Parameters<typeof String.prototype.replace>[1],
       CallableFunction

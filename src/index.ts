@@ -41,4 +41,6 @@ async function main(): Promise<void> {
   const substituted = substitute(AnswerContext.consume().store);
 
   await fs.promises.writeFile(templatePackageJson, substituted);
+
+  console.log(`\nProject created in ${targetOutput}\n`);
 }

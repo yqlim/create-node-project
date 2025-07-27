@@ -1,6 +1,2 @@
 onlyBuiltDependencies:
   - esbuild
-
-overrides:
-  # This is needed because of a bug in prettier-plugin-jsdoc: https://github.com/hosseinmd/prettier-plugin-jsdoc/issues/245
-  prettier: ~3.5.3

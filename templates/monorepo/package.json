@@ -13,6 +13,7 @@
     "prepare:deps": "pnpm --filter './packages/*' run build",
     "prepare:gitHooks": "husky",
     "test": "pnpm run test:spelling && pnpm run test:lint && pnpm run test:type && pnpm run test:unit",
+    "test:coverage": "pnpm run --recursive test:coverage",
     "test:lint": "eslint --max-warnings 0 . && pnpm run --recursive test:lint",
     "test:spelling": "cspell lint '**'",
     "test:type": "tsc --noEmit && pnpm run --recursive test:type",

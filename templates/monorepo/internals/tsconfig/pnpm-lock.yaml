@@ -26,13 +26,13 @@ importers:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.4.2
         version: 4.4.2(prettier@3.6.2)
-      '@packages/eslint-config':
+      '@internals/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@packages/lint-staged-config':
+      '@internals/lint-staged-config':
         specifier: workspace:*
         version: link:../lint-staged-config
-      '@packages/prettier-config':
+      '@internals/prettier-config':
         specifier: workspace:*
         version: link:../prettier-config
       eslint:

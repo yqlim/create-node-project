@@ -1,8 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": ["@packages/tsconfig/library.json"],
+  "extends": ["@internals/tsconfig/library.json"],
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
     "lib": ["ES2024"],
     "module": "Node16",
     "moduleResolution": "Node16",

@@ -39,8 +39,7 @@ function getCurrentTypeScriptVersion(): typeof currentTypeScriptVersion {
         }
 
         return parseVersion(pkgJson.version);
-      } catch (error) {
-        console.error(`Error reading package.json at ${filePath}:`, error);
+      } catch (_) {
         return null;
       }
     };

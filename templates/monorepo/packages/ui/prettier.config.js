@@ -1,3 +1,3 @@
-import { config } from '@packages/prettier-config/shared/base.js';
+import { config } from '@internals/prettier-config/shared/base.js';
 
 export default config;

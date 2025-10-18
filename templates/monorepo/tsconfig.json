@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": ["@packages/tsconfig/base.json"],
+  "extends": ["@internals/tsconfig/base.json"],
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "noEmit": true
   },
-  "exclude": ["apps", "node_modules", "packages"]
+  "exclude": ["apps", "internals", "node_modules", "packages"]
 }

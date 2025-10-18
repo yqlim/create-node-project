@@ -3,4 +3,5 @@ onlyBuiltDependencies:
 
 packages:
   - apps/*
+  - internals/*
   - packages/*

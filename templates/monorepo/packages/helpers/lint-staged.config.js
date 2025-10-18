@@ -1,3 +1,3 @@
-import { config } from '@packages/lint-staged-config';
+import { config } from '@internals/lint-staged-config';
 
 export default config;

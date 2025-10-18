@@ -1,6 +1,6 @@
 import type { Configuration } from 'lint-staged';
 
-export const config: Configuration = {
+export const config = {
   '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,mdx}': [
     () => 'tsc --noEmit',
     'eslint --cache --fix --max-warnings 0', // included cspell if using default workspace config
@@ -10,6 +10,6 @@ export const config: Configuration = {
     'cspell lint --no-must-find-files',
     'prettier --write',
   ],
-};
+} as const satisfies Configuration;
 
 export default config;

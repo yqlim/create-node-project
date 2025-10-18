@@ -24,6 +24,7 @@
     "**/generated/**",
     "**/node_modules/**",
     "**/out/**",
+    "**/*.tsbuildinfo",
     "package-lock.json",
     "pnpm-lock.yaml"
   ],

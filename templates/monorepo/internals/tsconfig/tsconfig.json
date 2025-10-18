@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": ["@internals/tsconfig/library.json"],
+  "compilerOptions": {
+    "noEmit": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.json"]
+}

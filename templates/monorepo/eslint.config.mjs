@@ -1,9 +1,9 @@
-import { configs } from '@packages/eslint-config/shared/base.js';
+import { configs } from '@internals/eslint-config/shared/base.js';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig(
   {
-    ignores: ['apps/', 'packages/'],
+    ignores: ['apps/', 'internals/', 'packages/'],
   },
   ...configs,
 );

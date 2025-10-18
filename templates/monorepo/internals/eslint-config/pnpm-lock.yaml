@@ -19,13 +19,13 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^15.3.4
         version: 15.3.4
-      '@packages/lint-staged-config':
+      '@internals/lint-staged-config':
         specifier: workspace:*
         version: link:../lint-staged-config
-      '@packages/prettier-config':
+      '@internals/prettier-config':
         specifier: workspace:*
         version: link:../prettier-config
-      '@packages/tsconfig':
+      '@internals/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
       '@types/node':

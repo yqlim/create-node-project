@@ -1,3 +1,5 @@
+// spellchecker:words Promisable
+
 declare module '@next/eslint-plugin-next' {
   import type { ESLint } from 'eslint';
   import type { Config as PromisableConfig } from 'typescript-eslint';

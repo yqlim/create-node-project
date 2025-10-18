@@ -1,8 +1,11 @@
 import tsEslint from 'typescript-eslint';
 
-import type { InfiniteDepthConfigWithExtends } from '../types.js';
+import type { ConfigWithExtends } from '../types.js';
 
-export const config: InfiniteDepthConfigWithExtends = {
+export const config: ConfigWithExtends = {
+  plugins: {
+    '@typescript-eslint': tsEslint.plugin,
+  },
   ...tsEslint.configs.disableTypeChecked,
 };
 

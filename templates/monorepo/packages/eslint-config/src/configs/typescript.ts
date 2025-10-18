@@ -1,8 +1,8 @@
 import tsEslint from 'typescript-eslint';
 
-import type { InfiniteDepthConfigWithExtends } from '../types.js';
+import type { ConfigWithExtends } from '../types.js';
 
-export const config: InfiniteDepthConfigWithExtends = {
+export const config: ConfigWithExtends = {
   extends: [
     tsEslint.configs.recommendedTypeChecked,
     tsEslint.configs.stylisticTypeChecked,
@@ -12,6 +12,9 @@ export const config: InfiniteDepthConfigWithExtends = {
       projectService: true,
       tsconfigRootDir: process.cwd(),
     },
+  },
+  plugins: {
+    '@typescript-eslint': tsEslint.plugin,
   },
   rules: {
     '@typescript-eslint/consistent-indexed-object-style': 'off',

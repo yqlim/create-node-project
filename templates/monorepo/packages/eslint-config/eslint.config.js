@@ -1,5 +1,5 @@
-import tsEslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 import { configs } from './dist/shared/base.js';
 
-export default tsEslint.config(...configs);
+export default defineConfig(...configs);

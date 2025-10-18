@@ -3,17 +3,30 @@ import tsEslint from 'typescript-eslint';
 
 import 'eslint-plugin-only-warn';
 
+import { defineConfig } from 'eslint/config';
+
 import { config as configCSpell } from '../configs/cspell.js';
 import { config as configIgnores } from '../configs/ignores.js';
 import { config as configSafeGlobals } from '../configs/safe-globals.js';
 import { config as configServer } from '../configs/server.js';
 import { config as configTypescriptDisabled } from '../configs/typescript-disabled.js';
 import { config as configTypescript } from '../configs/typescript.js';
+import { js, jsx, mdx, ts, tsx, withExt } from '../extensions.js';
 
-import type { InfiniteDepthConfigWithExtends } from '../types.js';
+import type { Config } from '../types.js';
 
-export const configs: InfiniteDepthConfigWithExtends[] = tsEslint.config(
+export const configs: Config[] = defineConfig(
   configIgnores,
+  {
+    files: [...withExt(['*'], [...js, ...ts, ...jsx, ...tsx, ...mdx])],
+    languageOptions: {
+      parser: tsEslint.parser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: process.cwd(),
+      },
+    },
+  },
   eslint.configs.recommended,
   configTypescript,
   configSafeGlobals,

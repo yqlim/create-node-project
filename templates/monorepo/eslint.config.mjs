@@ -1,7 +1,7 @@
 import { configs } from '@packages/eslint-config/shared/base.js';
-import tsEslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
-export default tsEslint.config(
+export default defineConfig(
   {
     ignores: ['apps/', 'packages/'],
   },

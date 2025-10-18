@@ -1,13 +1,13 @@
-import tsEslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 import { config as configBrowser } from '../configs/browser.js';
 import { config as configServer } from '../configs/server.js';
 import { js, jsx, ts, tsx, withExt } from '../extensions.js';
 import { configs as configsBase } from './base.js';
 
-import type { InfiniteDepthConfigWithExtends } from '../types.js';
+import type { Config } from '../types.js';
 
-export const configs: InfiniteDepthConfigWithExtends[] = tsEslint.config(
+export const configs: Config[] = defineConfig(
   configsBase,
   {
     files: [...withExt(['*.server', '**/server/**/*'], [...js, ...ts])],

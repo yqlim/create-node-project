@@ -1,8 +1,8 @@
 import globals from 'globals';
 
-import type { InfiniteDepthConfigWithExtends } from '../types.js';
+import type { ConfigWithExtends } from '../types.js';
 
-export const config: InfiniteDepthConfigWithExtends = {
+export const config: ConfigWithExtends = {
   languageOptions: {
     globals: {
       ...globals['shared-node-browser'],

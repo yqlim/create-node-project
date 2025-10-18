@@ -3,9 +3,9 @@ import * as mdx from 'eslint-plugin-mdx';
 import { config as configReact } from './react.js';
 import { config as configTypeDisabled } from './typescript-disabled.js';
 
-import type { InfiniteDepthConfigWithExtends } from '../types.js';
+import type { ConfigWithExtends } from '../types.js';
 
-export const config: InfiniteDepthConfigWithExtends = [
+export const config: ConfigWithExtends = [
   {
     ...mdx.flat,
     extends: [configTypeDisabled, configReact],

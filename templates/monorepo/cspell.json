@@ -1,5 +1,24 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "dictionaries": [
+    "coding-compound-terms",
+    "css",
+    "docker",
+    "fonts",
+    "fullstack",
+    "git",
+    "html",
+    "html-symbol-entities",
+    "k8s",
+    "lorem-ipsum",
+    "networking-terms",
+    "node",
+    "npm",
+    "shellscript",
+    "sql",
+    "typescript",
+    "web-services"
+  ],
   "ignorePaths": [
     "**/dist/**",
     "**/generated/**",
@@ -8,7 +27,8 @@
     "package-lock.json",
     "pnpm-lock.yaml"
   ],
+  "ignoreRandomStrings": true,
+  "ignoreWords": [],
   "language": "en,en-US,en-GB",
-  "readonly": true,
-  "words": ["esbuild", "ianvs", "noopener", "noreferrer", "Promisable", "vars"]
+  "words": []
 }

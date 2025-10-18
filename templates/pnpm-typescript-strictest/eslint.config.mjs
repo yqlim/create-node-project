@@ -1,32 +1,27 @@
 import cspell from '@cspell/eslint-plugin';
 import eslint from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
 import 'eslint-plugin-only-warn';
 
-export default tsEslint.config(
+export default defineConfig(
+  globalIgnores(['build', 'dist', 'generated', 'node_modules', 'out']),
   {
-    ignores: [
-      '**/build/',
-      '**/dist/',
-      '**/node_modules/',
-      '**/out/',
-      '**/stubs/',
-    ],
-  },
-  {
-    files: ['**/*.{js,mjs,cjs,ts}'],
+    files: ['**/*.{js,mjs,cjs,ts,cts,mts,jsx,tsx,mdx}'],
   },
   {
     languageOptions: {
-      globals: globals.node,
+      globals: globals['shared-node-browser'],
     },
   },
   eslint.configs.recommended,
-  tsEslint.configs.strictTypeChecked,
-  tsEslint.configs.stylisticTypeChecked,
   {
+    extends: [
+      tsEslint.configs.recommendedTypeChecked,
+      tsEslint.configs.stylisticTypeChecked,
+    ],
     languageOptions: {
       parserOptions: {
         projectService: {
@@ -35,13 +30,18 @@ export default tsEslint.config(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    plugins: {
+      '@typescript-eslint': tsEslint.plugin,
+    },
     rules: {
       '@typescript-eslint/consistent-indexed-object-style': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-confusing-void-expression': [
         'error',
         {
+          ignoreArrowShorthand: true,
           ignoreVoidOperator: true,
+          ignoreVoidReturningFunctions: true,
         },
       ],
       '@typescript-eslint/no-empty-object-type': [

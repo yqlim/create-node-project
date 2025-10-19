@@ -17,7 +17,7 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
     "start": "node dist/index.js",
-    "test": "vitest",
+    "test": "pnpm run test:spelling && pnpm run test:lint && pnpm run test:type && pnpm run test:unit",
     "test:coverage": "vitest --coverage",
     "test:lint": "eslint --cache --fix --max-warnings 0 .",
     "test:spelling": "cspell lint '**'",

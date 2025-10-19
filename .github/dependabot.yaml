@@ -1,0 +1,43 @@
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - maintenance
+
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /templates/**
+    schedule:
+      interval: cron
+      cronjob: 'every day at 1pm'
+    open-pull-requests-limit: 0
+    labels:
+      - security
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - maintenance
+
+  - package-ecosystem: npm
+    directories:
+      - /templates/**
+    schedule:
+      interval: weekly
+    groups:
+      templates-maintenance:
+        applies-to: version-updates
+        patterns:
+          - '*'
+        update-types:
+          - minor
+          - patch
+    labels:
+      - maintenance

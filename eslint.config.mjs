@@ -1,40 +1,31 @@
 import cspell from '@cspell/eslint-plugin';
 import eslint from '@eslint/js';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tsEslint from 'typescript-eslint';
 
 import 'eslint-plugin-only-warn';
 
-export default tsEslint.config(
-  {
-    ignores: [
-      '**/build/',
-      '**/dist/',
-      '**/node_modules/',
-      '**/out/',
-      '**/stubs/',
-      '**/templates/',
-    ],
-  },
-  {
-    files: ['**/*.{js,mjs,cjs,ts}'],
-  },
+export default defineConfig(
+  globalIgnores(['build', 'dist', 'node_modules', 'out', 'templates']),
   {
     languageOptions: {
       globals: globals.node,
-    },
-  },
-  eslint.configs.recommended,
-  tsEslint.configs.strictTypeChecked,
-  tsEslint.configs.stylisticTypeChecked,
-  {
-    languageOptions: {
+      parser: tsEslint.parser,
       parserOptions: {
         projectService: {
           allowDefaultProject: ['*.config.{js,cjs,mjs,ts}'],
         },
         tsconfigRootDir: import.meta.dirname,
       },
+    },
+  },
+  eslint.configs.recommended,
+  tsEslint.configs.strictTypeChecked,
+  tsEslint.configs.stylisticTypeChecked,
+  {
+    plugins: {
+      '@typescript-eslint': tsEslint.plugin,
     },
     rules: {
       '@typescript-eslint/consistent-indexed-object-style': 'off',

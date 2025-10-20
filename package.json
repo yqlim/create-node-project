@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Create a new Node.js project with opinionated bootstrap.",
   "type": "module",
-  "bin": "dist/index.js",
+  "bin": {
+    "create-bootstrap": "dist/index.js"
+  },
   "files": [
     "dist",
     "templates"

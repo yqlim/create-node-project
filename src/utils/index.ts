@@ -85,7 +85,7 @@ export function escapeStringRegex(str: string): string {
  */
 export function getProjectRoot(
   from: string,
-  indicatorFiles: string[] = ['package-lock.json', 'pnpm-lock.yaml'],
+  indicatorFiles: string[] = ['package.json'],
   memo: string[] = [],
 ): string {
   if (!PROJECT_ROOT_MEMO.has(from)) {

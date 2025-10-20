@@ -1,6 +1,6 @@
 {
-  "name": "create-node-project",
-  "version": "0.0.0",
+  "name": "create-bootstrap",
+  "version": "0.1.0",
   "description": "Create a new Node.js project with opinionated bootstrap.",
   "type": "module",
   "bin": "dist/index.js",

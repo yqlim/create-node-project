@@ -40,11 +40,14 @@ export function copyDirectory(
   const sep = escapeStringRegex(path.sep);
   const ignored = ignores.map(escapeStringRegex).join('|');
   const regex = new RegExp(`${sep}(?:${ignored})(?:${sep}.*)?$`);
+  const rootDir = getProjectRoot(import.meta.dirname);
   return fs.promises.cp(source, destination, {
     errorOnExist: true,
     recursive: true,
     filter: (src, dest) => {
-      const isIgnored = regex.test(src);
+      // This is needed to because we want to ignore paths within this project only
+      const relativeSrc = path.relative(rootDir, src);
+      const isIgnored = regex.test(relativeSrc);
 
       if (InputsContext.consume().get('verbose')) {
         if (isIgnored) {

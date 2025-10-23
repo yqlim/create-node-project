@@ -29,7 +29,7 @@ export class InputsContext extends ContextManager<InputsStore> {
       const rawInputs = yargsInst
         .wrap(yargsInst.terminalWidth())
         .alias('h', 'help')
-        .version(false)
+        .version()
         .strict()
         .command(
           '$0 [directory]',

@@ -61,12 +61,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yqlim/create-node-project.git"
+    "url": "git+https://github.com/yqlim/create-bootstrap.git"
   },
   "bugs": {
-    "url": "https://github.com/yqlim/create-node-project/issues"
+    "url": "https://github.com/yqlim/create-bootstrap/issues"
   },
-  "homepage": "https://github.com/yqlim/create-node-project#readme",
+  "homepage": "https://github.com/yqlim/create-bootstrap#readme",
   "keywords": [
     "setup",
     "bootstrap",

@@ -7,8 +7,8 @@ import { InputsContext } from '../contexts/inputs.js';
 
 const PROJECT_ROOT_MEMO = new Map<string, string>();
 
-export class CNPError extends Error {
-  override readonly name = 'CreateNodeProjectError';
+export class CreateBootstrapError extends Error {
+  override readonly name = 'CreateBootstrapError';
 }
 
 /**
@@ -200,7 +200,9 @@ export function runCommand(command: string, args: string[]): Promise<void> {
       if (code === 0) {
         resolve();
       } else {
-        reject(new CNPError(`Failed to execute command: ${command}`));
+        reject(
+          new CreateBootstrapError(`Failed to execute command: ${command}`),
+        );
       }
     });
   }).finally(() => {

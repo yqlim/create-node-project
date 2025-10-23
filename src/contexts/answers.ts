@@ -8,7 +8,7 @@ import {
 
 import { ContextManager } from '../helpers/context-manager/index.js';
 import {
-  CNPError,
+  CreateBootstrapError,
   isDirectory,
   isDirectoryEmpty,
   isPathExist,
@@ -49,12 +49,12 @@ export class AnswerContext extends ContextManager<AnswerStore> {
       if (isPathExist(directory)) {
         if (isDirectory(directory)) {
           if (!isDirectoryEmpty(directory)) {
-            throw new CNPError(
+            throw new CreateBootstrapError(
               'The target pathname already exists and is not empty',
             );
           }
         } else {
-          throw new CNPError(
+          throw new CreateBootstrapError(
             'The target pathname already exists and is not an empty directory',
           );
         }
@@ -80,7 +80,7 @@ export class AnswerContext extends ContextManager<AnswerStore> {
       });
 
       if (!templateList.includes(template)) {
-        throw new CNPError('The provided template is not valid.');
+        throw new CreateBootstrapError('The provided template is not valid.');
       }
 
       const store: AnswerStore = {

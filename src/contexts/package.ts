@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { ContextManager } from '../helpers/context-manager/index.js';
-// import { CNPError } from '../utils/index.js';
+// import { CreateBootstrapError } from '../utils/index.js';
 import AnswerContext from './answers.js';
 
 import type { JsonObject, PackageJson, SetRequired } from 'type-fest';
@@ -76,7 +76,7 @@ export class PackageContext extends ContextManager<PackageStore> {
   //       case 'pnpm':
   //         return import('../helpers/package-manager/pnpm.js');
   //       default:
-  //         throw new CNPError(`Unsupported package manager: ${manager}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
+  //         throw new CreateBootstrapError(`Unsupported package manager: ${manager}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
   //     }
   //   })();
 

@@ -6,7 +6,7 @@ import { AnswerContext } from './contexts/answers.js';
 import { InputsContext } from './contexts/inputs.js';
 import { PackageContext } from './contexts/package.js';
 import { ensureDirectoryExists } from './logics/ensure-directory.js';
-import { CNPError, copyDirectory } from './utils/index.js';
+import { copyDirectory, CreateBootstrapError } from './utils/index.js';
 import { createTemplate, getTemplatePath } from './utils/templating.js';
 
 try {
@@ -18,7 +18,10 @@ try {
 } catch (error) {
   process.exitCode ??= 1;
   // Prevent printing the stack trace if the error is a handled error
-  console.error('\n%s\n', error instanceof CNPError ? error.message : error);
+  console.error(
+    '\n%s\n',
+    error instanceof CreateBootstrapError ? error.message : error,
+  );
 }
 
 async function main(): Promise<void> {

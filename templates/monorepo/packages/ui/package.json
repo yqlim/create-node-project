@@ -27,6 +27,7 @@
     "@internals/lint-staged-config": "workspace:*",
     "@internals/prettier-config": "workspace:*",
     "@internals/tsconfig": "workspace:*",
+    "@tsconfig/node24": "^24.0.1",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "eslint": "^9.38.0",

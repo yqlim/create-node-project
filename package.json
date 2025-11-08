@@ -22,7 +22,7 @@
     "spell-check": "cspell lint '**'",
     "start": "node dist/index.js",
     "test": "vitest",
-    "test:templates": "for dir in ./templates/*; do if [ -d \"$dir\" ]; then (cd \"$dir\" && pnpm test) fi done",
+    "test:templates": "for dir in ./templates/*; do if [ -d \"$dir\" ]; then (cd \"$dir\" && pnpm install && pnpm test) fi done",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

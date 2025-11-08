@@ -22,6 +22,7 @@
     "@internals/eslint-config": "workspace:*",
     "@internals/prettier-config": "workspace:*",
     "@internals/tsconfig": "workspace:*",
+    "@tsconfig/node24": "^24.0.1",
     "@types/node": "^24.8.1",
     "eslint": "^9.38.0",
     "eslint-plugin-only-warn": "^1.1.0",

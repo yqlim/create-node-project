@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": ["@internals/tsconfig/library.json"],
+  "extends": [
+    "@internals/tsconfig/base.json",
+    "@internals/tsconfig/compiler.native.json",
+    "@internals/tsconfig/platform.server.json",
+    "@internals/tsconfig/purpose.library.json"
+  ],
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
-    "lib": ["ES2024"],
-    "module": "Node16",
-    "moduleResolution": "Node16",
     "outDir": "dist",
-    "rootDir": "src",
-    "target": "ES2024"
+    "rootDir": "src"
   },
   "include": ["src"]
 }

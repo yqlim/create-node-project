@@ -6,6 +6,9 @@
   ],
   "compilerOptions": {
     "exactOptionalPropertyTypes": false,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "sourceMap": true,
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true
   }

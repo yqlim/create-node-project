@@ -1,15 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": ["@internals/tsconfig/library.json"],
+  "extends": [
+    "@internals/tsconfig/base.json",
+    "@internals/tsconfig/compiler.native.json",
+    "@internals/tsconfig/platform.client.json",
+    "@internals/tsconfig/purpose.library.json"
+  ],
   "compilerOptions": {
     "composite": true,
-    "jsx": "preserve",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "module": "node16",
+    "moduleResolution": "node16",
     "outDir": "dist",
     "rootDir": "src",
-    "target": "ES2024"
+    "target": "es2024"
   },
   "include": ["src"]
 }

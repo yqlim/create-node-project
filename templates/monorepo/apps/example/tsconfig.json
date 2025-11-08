@@ -3,11 +3,13 @@
   "extends": [
     "@internals/tsconfig/base.json",
     "@internals/tsconfig/compiler.native.json",
-    "@internals/tsconfig/platform.server.json"
+    "@internals/tsconfig/platform.server.json",
+    "@internals/tsconfig/purpose.library.json"
   ],
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": []
 }

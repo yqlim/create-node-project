@@ -1,13 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": ["@internals/tsconfig/library.json"],
+  "extends": [
+    "@internals/tsconfig/base.json",
+    "@internals/tsconfig/compiler.native.json",
+    "@internals/tsconfig/platform.server.json",
+    "@internals/tsconfig/purpose.library.json"
+  ],
   "compilerOptions": {
     "composite": true,
-    "module": "ES2022",
-    "lib": ["ES2024"],
     "outDir": "dist",
-    "rootDir": "src",
-    "target": "ES2024"
+    "rootDir": "src"
   },
   "include": ["src"]
 }
